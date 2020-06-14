@@ -1,0 +1,96 @@
+h1{
+    text-align: left;
+}
+
+.main{
+    position:absolute;
+    height: 70%;
+    width:70%;
+    top:20%;
+    left:15%;
+}
+.boxTopLeft{
+    position: relative;
+
+    width: 48%;/*Change to percentage*/
+    height:50%;
+    border: 3px solid black;
+}
+.aboutImg{
+    width:100%;
+    height:100%;
+    opacity:.4;
+}
+.aboutText{
+    position:absolute;
+    text-align:center;
+    width:100%;
+    top:20%;
+    left:0;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.boxRight{
+    position: absolute;
+    top:0%;
+    left: 50%;
+    width: 48%;/*Change to percentage*/
+    height:92%;
+    border: 3px solid black;
+}
+.standImg{
+    width:100%;
+    height:100%;
+    opacity:.4;
+}
+.standText{
+    position:absolute;
+    text-align:center;
+    width:100%;
+    top:10%;
+    left:0;
+    font-size: 3em;
+    font-weight: bold;
+}
+
+.boxBotLeft{
+    position: relative;
+    top:1vh;
+    width: 48%;/*Change to percentage*/
+    height:39%;
+    border: 3px solid black;
+}
+.contactImg{
+    width:80%;
+    height:100%;
+    opacity:.4;
+}
+.contactText{
+    position:absolute;
+    text-align:center;
+    width:100%;
+    top:20%;
+    left:0;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.boxBotLeft:hover {
+    border: 5px solid black;
+}
+.aboutImg:hover{
+    opacity:.7;
+}
+.boxTopLeft:hover {
+    border: 5px solid black;
+}
+.contactImg:hover{
+    opacity:.7;
+}
+.boxRight:hover {
+    border: 5px solid black;
+}
+.standImg:hover{
+    opacity:.7;
+}

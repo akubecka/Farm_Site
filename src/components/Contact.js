@@ -12,6 +12,11 @@ function Contact() {
           </header>
         </div>
       <p>Contact Us</p>
+      <div className="fbLink">
+      <a href = "https://www.facebook.com/KubeckaFarms">
+        <img className = "fbImg" src = {require(`../pics/fb1.jpg`)}/>
+      </a>
+      </div>
     </div>
   );
 }

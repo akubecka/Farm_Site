@@ -1,7 +1,9 @@
 const mongoCollections = require("./collection");
 const admins = mongoCollections.admins;
 const cart = mongoCollections.cart;
-const users = mongoCollections.users;
+const tempCart = mongoCollections.tempCart;
+const orderLog = mongoCollections.orderLog;
+const products = mongoCollections.products;
 
 const get = async function get(id){
 	if(id == undefined){
@@ -15,7 +17,63 @@ const get = async function get(id){
 	return nameExists;
 }
 
+const getOrders = async function getOrders(){
+	var cartCollection = await cart();
+	let cartExists = await cartCollection.find({}).toArray();
+	return cartExists;
+}
+
+const getProducts = async function getProducts(){
+	var productCollection = await products();
+	let prodExists = await productCollection.find({}).toArray();
+	return prodExists;
+}
+const addProduct = async function addProduct(name, price){
+	var prodCollection = await products();
+	var newProd = {
+		"name": name,
+		"price": price
+	}
+	var insert = await prodCollection.insertOne(newProd);
+
+	return 0;
+}
+
+const removeOrder = async function removeOrder(id){
+	console.log("remove order");
+	if(id == undefined){
+		throw new Error("id is not defined");
+	}
+	
+	var cartCollection = await cart();
+	var ObjectId = require('mongodb').ObjectID;
+
+	let updated = await cartCollection.removeOne({_id: ObjectId(id)});
+	if(updated.deletedCount === 0){
+		throw new Error("could not remove");
+	}
+	return await getOrders();
+}
+
+const getCartByIdTemp = async function getCartByIdTemp(id){
+	console.log("idT: " + id);
+	if(id == undefined){
+		throw new Error("id is not defined");
+	}
+	if(typeof(id) !== "string" && typeof(id) !== "object"){
+		throw new Error("id is not of type string");
+	}
+	var cartCollection = await tempCart();
+	var ObjectId = require('mongodb').ObjectID;
+	let cartExists = await cartCollection.findOne({_id: ObjectId(id)});
+	if(cartExists == null){
+		throw new Error("no cart with that id");
+	}
+	return cartExists;
+}
+
 const getCartById = async function getCartById(id){
+	console.log("id: " + id);
 	if(id == undefined){
 		throw new Error("id is not defined");
 	}
@@ -23,13 +81,29 @@ const getCartById = async function getCartById(id){
 		throw new Error("id is not of type string");
 	}
 	var cartCollection = await cart();
-	let cartExists = await cartCollection.findOne({_id: id});
+	var ObjectId = require('mongodb').ObjectID;
+	console.log("breaks here");
+	let cartExists = await cartCollection.findOne({_id: ObjectId(id)});
+	console.log("broke here");
 	if(cartExists == null){
 		throw new Error("no cart with that id");
 	}
 	return cartExists;
 }
-const getUserById = async function getUserById(id){
+const deleteCart = async function deleteCart(id){
+	console.log("id: " + id);
+	if(id == undefined){
+		throw new Error("id is not defined");
+	}
+	if(typeof(id) !== "string" && typeof(id) !== "object"){
+		throw new Error("id is not of type string");
+	}
+	var cartCollection = await tempCart();
+	var ObjectId = require('mongodb').ObjectID;
+	let cartDeleted = await cartCollection.removeOne({_id: ObjectId(id)});
+	return cartDeleted;
+}
+/* const getUserById = async function getUserById(id){
 	if(id == undefined){
 		throw new Error("id is not defined");
 	}
@@ -49,7 +123,7 @@ const makeUser = async function makeUser(){
 	var insert = await userCollection.insertOne(newUser);
 
 	return getUserById(insert.insertedId);
-}
+} */
 
 const updateAvail = async function updateAvail(name, bool){
 	console.log("update avail func");
@@ -97,7 +171,6 @@ const updateAvail = async function updateAvail(name, bool){
 const makeCart = async function makeCart(id){
 	var cartCollection = await cart();
 	var newCart = {
-		"UserID": id,
 		"Strawberry": 0,
 		"Corn": 0,
 		"Squash": 0
@@ -106,7 +179,39 @@ const makeCart = async function makeCart(id){
 
 	return getCartById(insert.insertedId);
 }
+const sendOrder = async function sendOrder(strawbs, corn, squash){
+	var cartCollection = await cart();
+	var newCart = {
+		"Strawberry": strawbs,
+		"Corn": corn,
+		"Squash": squash
+	}
+	var insert = await cartCollection.insertOne(newCart);
 
+	return getCartById(insert.insertedId);
+}
+const tempOrder = async function tempOrder(strawbs, corn, squash){
+	var cartCollection = await tempCart();
+	var newCart = {
+		"Strawberry": strawbs,
+		"Corn": corn,
+		"Squash": squash
+	}
+	var insert = await cartCollection.insertOne(newCart);
+
+	return getCartByIdTemp(insert.insertedId);
+}
+
+const saveOrder = async function saveOrder(order){
+	var orderCollection = await orderLog();
+
+	var insert = await orderCollection.insertOne(order);
+	var ObjectId = require('mongodb').ObjectID;
+	console.log(order._id);
+	return 0;//getCartById(ObjectId(order._id));
+}
+
+/* 
 const updateCart = async function updateCart(id, name, num){
 	console.log("update cart func");
 	console.log(id);
@@ -167,6 +272,7 @@ const updateCart = async function updateCart(id, name, num){
 	console.log(updated);
 	return getCartById(updated._id);
 }
+
 
 const removeFromCart = async function removeFromCart(name, num){
 	console.log("remove from cart func");
@@ -252,6 +358,7 @@ const addFruits = async function addFruits(){
 	var insert = await adminCollection.insertOne(newFruit1);
 }
 
+ */
 
-
-module.exports = {get, makeUser, getCartById, updateAvail, makeCart, updateCart, clearCart, addFruits};
+module.exports = {get, getOrders, deleteCart, getProducts, addProduct, removeOrder, tempOrder, saveOrder, sendOrder, getCartById, getCartByIdTemp, updateAvail, makeCart};
+//updateCart, clearCart, addFruits

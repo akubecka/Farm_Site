@@ -19,5 +19,7 @@ const getCollectionFn = collection => {
 module.exports = {
   admins: getCollectionFn("admins"),
   cart: getCollectionFn("cart"),
-  users: getCollectionFn("users")
+  tempCart: getCollectionFn("tempCart"),
+  orderLog: getCollectionFn("orderLog"),
+  products: getCollectionFn("products")
 };

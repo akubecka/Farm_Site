@@ -1,13 +1,65 @@
 .grid-container {
+    position: absolute;
     display: grid;
+    height: 80%;
+    width:76%;
     grid-template-columns: auto auto auto;
-    background-color: #2196F3;
-    padding: 10px;
+    background-color: white;
+
+    top:12%;
+    grid-gap: 20px;
   }
+
   .grid-item {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: 1px solid rgba(0, 0, 0, 0.8);
-    padding: 20px;
-    font-size: 30px;
+    background-color:whitesmoke;
+    border: 1px solid black;
     text-align: center;
+  }
+
+  .grid-item label input{
+    width: 35%;
+  }
+  .grid-item label input:focus{
+    background-color: lightblue;
+
+  }
+
+  .cartHere{
+    position: absolute;
+    left:86%;
+    top: 25%;
+    height: auto;
+    width: 10%;
+    background-color: lightblue;
+    border: 1px solid black;
+    text-align: center;
+  }
+  .cartHere2{
+    position: absolute;
+    left:86%;
+    top: 25%;
+    height: 30%;
+    width: 10%;
+    text-align: center;
+  }
+  .cartyImg{
+    position: relative;
+    height: 50px;
+    width: 50px;
+  }
+  .cartButton{
+    position: relative;
+    bottom: 0px;
+  }
+
+  h3{
+    margin:0;
+  }
+  p{
+    font-size: 16px;
+  }
+  .strawbImg{
+    height:100px;
+    width:100px;
+    margin:0;
   }

@@ -25,18 +25,18 @@ handleChange(event) {
 render(){
   return (
     <div className = "admin">
-            <div>
           <header>
-            <h1>Kubecka Farms</h1>
             <NavBar />
           </header>
-        </div>
+          <div className="realStuff">
+          <h2>Admin</h2>
         <form>
         <label>
           <input type="text" value={this.state.value} onChange={this.handleChange} />
         </label>
       </form>
       {this.state.display ? <Admin></Admin> : <p>Enter Admin Password</p>}
+      </div>
     </div>
   );
 }

@@ -22,6 +22,47 @@ app.post('/makeUser', async(req, res) => {
     return res.json(acc)
 });
 
+app.get('/getOrders', async(req, res) => {
+    console.log("get orders");
+    var acc ={"formatting issue" :"your json was bad!"};
+    try{
+        acc = await admins.getOrders();
+    }catch(e){
+        console.log(e)
+        return res.status(400).json({error: e})
+    }
+    return res.json(acc)
+});
+
+app.post('/removeOrder', async(req, res) => {
+    var acc ={"formatting issue" :"your json was bad!"};
+    console.log("Removing from cart");
+    try{
+        const body = req.body;
+        if(body.id){
+            acc = await admins.removeOrder(body.id);
+        }
+    }catch(e){
+        console.log(e)
+        return res.status(400).json({error: e})
+    }
+    return res.json(acc)
+}); 
+
+app.post('/getCartByIdTemp', async(req, res) => {
+    console.log("get cart by id");
+    var acc ={"formatting issue" :"your json was bad!"};
+    try{
+        const body = req.body;
+        if(body.id){
+            acc = await admins.getCartByIdTemp(body.id);
+        }
+    }catch(e){
+        console.log(e)
+        return res.status(400).json({error: e})
+    }
+    return res.json(acc)
+});
 app.post('/getCartById', async(req, res) => {
     console.log("get cart by id");
     var acc ={"formatting issue" :"your json was bad!"};
@@ -29,6 +70,48 @@ app.post('/getCartById', async(req, res) => {
         const body = req.body;
         if(body.id){
             acc = await admins.getCartById(body.id);
+        }
+    }catch(e){
+        console.log(e)
+        return res.status(400).json({error: e})
+    }
+    return res.json(acc)
+});
+
+app.post('/getProducts', async(req, res) => {
+    console.log("get products");
+    var acc ={"formatting issue" :"your json was bad!"};
+    try{
+        acc = await admins.getProducts();
+    }catch(e){
+        console.log(e)
+        return res.status(400).json({error: e})
+    }
+    return res.json(acc)
+});
+
+app.post('/addProduct', async(req, res) => {
+    console.log("adding product");
+    var acc ={"formatting issue" :"your json was bad!"};
+    try{
+        const body = req.body;
+        if(body.name && body.price){
+            acc = await admins.addProduct(body.name, body.price);
+        }
+    }catch(e){
+        console.log(e)
+        return res.status(400).json({error: e})
+    }
+    return res.json(acc)
+});
+
+app.post('/deleteCart', async(req, res) => {
+    console.log("delete cart by id");
+    var acc ={"formatting issue" :"your json was bad!"};
+    try{
+        const body = req.body;
+        if(body.id){
+            acc = await admins.deleteCart(body.id);
         }
     }catch(e){
         console.log(e)
@@ -45,6 +128,51 @@ app.post('/updateAvail', async(req, res) => {
         if(body.name && body.bool!==null){
 
             acc = await admins.updateAvail(body.name, body.bool);
+        }
+    }catch(e){
+        console.log(e)
+        return res.status(400).json({error: e})
+    }
+    return res.json(acc)
+});
+
+app.post('/tempOrder', async(req, res) => {
+    console.log("sending temp order");
+    var acc ={"formatting issue" :"your json was bad!"};
+    try{
+        const body = req.body;
+        if(body.strawbs || body.corn || body.squash){
+            acc = await admins.tempOrder(body.strawbs, body.corn, body.squash);
+        }
+    }catch(e){
+        console.log(e)
+        return res.status(400).json({error: e})
+    }
+    return res.json(acc)
+});
+
+app.post('/sendOrder', async(req, res) => {
+    console.log("sending order");
+    var acc ={"formatting issue" :"your json was bad!"};
+    try{
+        const body = req.body;
+        if(body.strawbs || body.corn || body.squash){
+            acc = await admins.sendOrder(body.strawbs, body.corn, body.squash);
+        }
+    }catch(e){
+        console.log(e)
+        return res.status(400).json({error: e})
+    }
+    return res.json(acc)
+});
+
+app.post('/saveOrder', async(req, res) => {
+    console.log("saving order");
+    var acc ={"formatting issue" :"your json was bad!"};
+    try{
+        const body = req.body;
+        if(body.order){
+            acc = await admins.saveOrder(body.order);
         }
     }catch(e){
         console.log(e)
@@ -119,7 +247,7 @@ app.post('/addFruits', async(req, res) => {
     }
     return res.json(acc)
 })
-
+ 
 app.get("/*", async (req,res) => {
     return res.status(404).json({Error: "Page not found"})
 });
